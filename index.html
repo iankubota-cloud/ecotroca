@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EcoTroca Wanel Ville</title>
+<meta name="description" content="Doe, troque e encontre objetos usados entre vizinhos da região do Wanel Ville, em Sorocaba/SP.">
+<style>
+  :root {
+    --verde: #2e7d4f; --verde-escuro: #1f5a38; --verde-claro: #e6f3ea;
+    --laranja: #e8891c; --azul: #2563a8;
+    --texto: #1d2a22; --suave: #5b6b61; --fundo: #f6f8f5; --card: #ffffff; --borda: #dfe6e0;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 18px;
+    line-height: 1.5; color: var(--texto); background: var(--fundo); }
+  a { color: var(--verde-escuro); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+  header { background: var(--verde); color: #fff; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 14px; padding-bottom: 14px; flex-wrap: wrap; }
+  .logo { font-weight: 800; font-size: 1.5rem; letter-spacing: -.5px; }
+  .logo small { display: block; font-weight: 400; font-size: .8rem; opacity: .9; }
+  nav a { color: #fff; text-decoration: none; margin-left: 16px; font-weight: 600; }
+
+  .hero { background: linear-gradient(160deg, var(--verde) 0%, var(--verde-escuro) 100%); color: #fff; padding: 36px 0 44px; }
+  .hero h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 0 0 10px; line-height: 1.2; }
+  .hero p { max-width: 640px; margin: 0 0 22px; font-size: 1.1rem; opacity: .95; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 14px 22px; border-radius: 12px; font-weight: 700; text-decoration: none;
+    border: 0; cursor: pointer; font-size: 1rem; }
+  .btn-primario { background: var(--laranja); color: #fff; }
+  .btn-secundario { background: #fff; color: var(--verde-escuro); }
+  .btn:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid var(--laranja); outline-offset: 2px; }
+
+  section { padding: 36px 0; }
+  h2 { font-size: 1.6rem; margin: 0 0 6px; }
+  .sub { color: var(--suave); margin: 0 0 20px; }
+
+  .demo { background: #fff4e0; border: 1px solid #f3c77d; color: #7a4a00; padding: 12px 16px; border-radius: 10px; margin-bottom: 18px; font-size: .95rem; }
+
+  .passos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .passo { background: var(--card); border: 1px solid var(--borda); border-radius: 14px; padding: 20px; }
+  .passo .n { width: 38px; height: 38px; border-radius: 50%; background: var(--verde-claro); color: var(--verde-escuro);
+    display: grid; place-items: center; font-weight: 800; margin-bottom: 10px; }
+  .passo h3 { margin: 0 0 6px; font-size: 1.1rem; }
+  .passo p { margin: 0; color: var(--suave); font-size: .95rem; }
+
+  .impacto { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .kpi { background: var(--card); border: 1px solid var(--borda); border-radius: 14px; padding: 18px 20px; }
+  .kpi .v { font-size: 2.2rem; font-weight: 800; color: var(--verde); line-height: 1.1; }
+  .kpi .l { color: var(--suave); font-size: .95rem; }
+
+  .filtros { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+  .filtros input, .filtros select { font-size: 1rem; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--borda); background: #fff; color: var(--texto); }
+  .filtros input { flex: 1 1 220px; }
+  .abas { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .aba { padding: 10px 16px; border-radius: 999px; border: 1px solid var(--borda); background: #fff; cursor: pointer; font-size: .95rem; font-weight: 600; color: var(--texto); }
+  .aba[aria-pressed="true"] { background: var(--verde); color: #fff; border-color: var(--verde); }
+
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .item { background: var(--card); border: 1px solid var(--borda); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: .78rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+  .t-doacao { background: var(--verde-claro); color: var(--verde-escuro); }
+  .t-troca { background: #e3edf9; color: var(--azul); }
+  .t-procuro { background: #fdecd8; color: #9a560c; }
+  .t-cat { background: #eef0ee; color: var(--suave); }
+  .t-ok { background: #ececec; color: #666; }
+  .item h3 { margin: 0; font-size: 1.15rem; }
+  .item p { margin: 0; color: var(--suave); font-size: .95rem; }
+  .item .meta { font-size: .85rem; color: var(--suave); }
+  .item .acao { margin-top: auto; }
+  .item .acao a { display: block; text-align: center; padding: 12px; border-radius: 10px; background: var(--verde); color: #fff; font-weight: 700; text-decoration: none; }
+  .item.entregue { opacity: .6; }
+  .vazio { color: var(--suave); padding: 24px; text-align: center; background: #fff; border-radius: 14px; border: 1px dashed var(--borda); }
+
+  .ponto { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .caixa { background: var(--card); border: 1px solid var(--borda); border-radius: 14px; padding: 22px; }
+  .caixa h3 { margin-top: 0; }
+  .caixa ul { padding-left: 20px; margin: 0; }
+  .caixa li { margin-bottom: 6px; }
+
+  footer { background: var(--texto); color: #cfd8d2; padding: 26px 0; font-size: .9rem; }
+  footer a { color: #fff; }
+
+  @media (max-width: 720px) {
+    .ponto { grid-template-columns: 1fr; }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">♻ EcoTroca <small>Wanel Ville · Sorocaba/SP</small></div>
+    <nav aria-label="Seções">
+      <a href="#itens">Itens</a><a href="#como">Como funciona</a><a href="#ponto">Ponto de apoio</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>O que não serve mais para você pode fazer falta para o seu vizinho.</h1>
+    <p>Doe, troque ou peça objetos usados com quem mora perto de você. É gratuito, simples e ajuda a manter o bairro limpo.</p>
+    <div class="btns">
+      <a class="btn btn-primario" id="btnAnunciar" href="#" target="_blank" rel="noopener">+ Anunciar um item</a>
+      <a class="btn btn-secundario" href="#itens">Ver itens disponíveis</a>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section id="impacto">
+    <div class="wrap">
+      <h2>Nosso impacto</h2>
+      <p class="sub">Números atualizados a partir dos anúncios da comunidade.</p>
+      <div class="impacto">
+        <div class="kpi"><div class="v" id="kAnuncios">0</div><div class="l">itens anunciados</div></div>
+        <div class="kpi"><div class="v" id="kEntregues">0</div><div class="l">itens que encontraram um novo dono</div></div>
+        <div class="kpi"><div class="v" id="kKg">0 kg</div><div class="l">estimativa de resíduos evitados</div></div>
+        <div class="kpi"><div class="v" id="kPessoas">0</div><div class="l">moradores participando</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="itens" style="padding-top:0">
+    <div class="wrap">
+      <h2>Itens da comunidade</h2>
+      <p class="sub">Toque em "Tenho interesse" para combinar a entrega direto com o vizinho.</p>
+      <div class="demo" id="avisoDemo" hidden>
+        <strong>Modo demonstração:</strong> os itens abaixo são exemplos para mostrar como a plataforma funciona.
+      </div>
+      <div class="abas" role="group" aria-label="Tipo de anúncio">
+        <button class="aba" data-tipo="" aria-pressed="true">Todos</button>
+        <button class="aba" data-tipo="Doação" aria-pressed="false">Doações</button>
+        <button class="aba" data-tipo="Troca" aria-pressed="false">Trocas</button>
+        <button class="aba" data-tipo="Procuro" aria-pressed="false">Itens procurados</button>
+      </div>
+      <div class="filtros">
+        <input id="busca" type="search" placeholder="Buscar: sofá, berço, livros..." aria-label="Buscar item">
+        <select id="categoria" aria-label="Categoria"><option value="">Todas as categorias</option></select>
+        <select id="status" aria-label="Situação">
+          <option value="disponivel">Só disponíveis</option>
+          <option value="">Mostrar também os já entregues</option>
+        </select>
+      </div>
+      <div class="grade" id="grade"></div>
+    </div>
+  </section>
+
+  <section id="como" style="background:#fff">
+    <div class="wrap">
+      <h2>Como funciona</h2>
+      <p class="sub">Quatro passos, sem cadastro complicado.</p>
+      <div class="passos">
+        <div class="passo"><div class="n">1</div><h3>Anuncie</h3><p>Preencha um formulário rápido dizendo o que quer doar, trocar ou o que está procurando.</p></div>
+        <div class="passo"><div class="n">2</div><h3>Encontre</h3><p>Seu anúncio aparece aqui para os vizinhos. Use a busca e as categorias para achar o que precisa.</p></div>
+        <div class="passo"><div class="n">3</div><h3>Combine</h3><p>Fale com o vizinho pelo WhatsApp e combine a entrega. Pode ser no ponto de apoio do mercado.</p></div>
+        <div class="passo"><div class="n">4</div><h3>Reaproveite</h3><p>O item ganha um novo dono, você libera espaço e o bairro fica mais limpo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ponto">
+    <div class="wrap ponto">
+      <div class="caixa">
+        <h3>📍 Ponto de apoio</h3>
+        <p><strong>Santo Supermercados – unidade Wanel Ville</strong></p>
+        <p>Procure o cartaz do EcoTroca na entrada. Use o mercado como ponto de encontro seguro para entregar e retirar itens pequenos.</p>
+        <p>Não tem familiaridade com celular? Peça ajuda a um familiar ou vizinho para anunciar por você.</p>
+      </div>
+      <div class="caixa">
+        <h3>🛡️ Dicas de segurança</h3>
+        <ul>
+          <li>Combine entregas em locais movimentados, como o ponto de apoio.</li>
+          <li>Nunca envie dinheiro adiantado: aqui tudo é doação ou troca.</li>
+          <li>Itens grandes? Marque "preciso de ajuda com transporte" no anúncio.</li>
+          <li>Itens sem condição de uso devem ir para um Ecoponto da Prefeitura.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>EcoTroca</strong> é um projeto de extensão universitária do curso de Análise e Desenvolvimento de Sistemas, eixo Economia Sustentável, alinhado aos ODS 1, 12 e 13.</p>
+    <p>Privacidade (LGPD): exibimos apenas o primeiro nome e o contato que o próprio morador informou para combinar a entrega. Para remover um anúncio, fale com o responsável pelo projeto.</p>
+  </div>
+</footer>
+
+<script>
+// ===================== CONFIGURAÇÃO =====================
+// 1) Link do Google Forms usado para anunciar itens.
+// 2) Link CSV da planilha de respostas (Arquivo > Compartilhar > Publicar na Web > CSV).
+// Enquanto SHEET_CSV_URL estiver vazio, o site roda em modo demonstração.
+const CONFIG = {
+  FORM_URL: 'https://docs.google.com/forms/d/e/1FAIpQLSepqveYo-16S6XkZnGLui8Z3qR1FuoinR2cJbH8xjPhkAVzyQ/viewform',
+  SHEET_CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRg2sRrRe509R-6vzA_ygBDtSpoZSheaGAkyz6kxa61FG_1GdKm84sn7DevxOJHDUKJh4eeU_5iV9JO/pub?gid=1324827346&single=true&output=csv',
+};
+
+// Peso médio estimado por categoria (kg) para o painel de impacto.
+const PESO_KG = {
+  'Móveis': 25, 'Eletrodomésticos': 15, 'Roupas e calçados': 1, 'Bebê e infantil': 3,
+  'Material escolar e livros': 1, 'Utensílios de casa': 2, 'Material de construção': 10, 'Outros': 2,
+};
+
+const EXEMPLOS = [
+  { tipo: 'Doação', item: 'Sofá de 3 lugares', categoria: 'Móveis', descricao: 'Tecido cinza, bom estado. Preciso de ajuda para levar.', nome: 'Juliana', contato: '', transporte: 'Sim', status: 'Disponível' },
+  { tipo: 'Doação', item: 'Roupas de bebê (0 a 6 meses)', categoria: 'Bebê e infantil', descricao: 'Sacola com bodies e macacões.', nome: 'Rafael', contato: '', transporte: 'Não', status: 'Disponível' },
+  { tipo: 'Procuro', item: 'Mochila e material escolar', categoria: 'Material escolar e livros', descricao: 'Para criança do 3º ano.', nome: 'Patrícia', contato: '', transporte: 'Não', status: 'Disponível' },
+  { tipo: 'Troca', item: 'Livros de ficção', categoria: 'Material escolar e livros', descricao: 'Troco por outros livros ou jogos.', nome: 'Lucas', contato: '', transporte: 'Não', status: 'Disponível' },
+  { tipo: 'Doação', item: 'Sobras de piso cerâmico', categoria: 'Material de construção', descricao: 'Cerca de 6 m², mesma cor.', nome: 'Sérgio', contato: '', transporte: 'Sim', status: 'Disponível' },
+  { tipo: 'Doação', item: 'Micro-ondas', categoria: 'Eletrodomésticos', descricao: 'Funcionando, com pequeno risco na porta.', nome: 'Fernanda', contato: '', transporte: 'Não', status: 'Entregue' },
+];
+
+// ===================== DADOS =====================
+function parseCSV(texto) {
+  const linhas = []; let campo = '', linha = [], aspas = false;
+  for (let i = 0; i < texto.length; i++) {
+    const c = texto[i];
+    if (aspas) {
+      if (c === '"' && texto[i + 1] === '"') { campo += '"'; i++; }
+      else if (c === '"') aspas = false;
+      else campo += c;
+    } else if (c === '"') aspas = true;
+    else if (c === ',') { linha.push(campo); campo = ''; }
+    else if (c === '\n' || c === '\r') {
+      if (c === '\r' && texto[i + 1] === '\n') i++;
+      linha.push(campo); linhas.push(linha); linha = []; campo = '';
+    } else campo += c;
+  }
+  if (campo || linha.length) { linha.push(campo); linhas.push(linha); }
+  return linhas.filter(l => l.some(v => v.trim()));
+}
+
+// Associa as colunas do formulário pelo início do título da pergunta.
+function mapear(linhas) {
+  const cab = linhas[0].map(h => h.toLowerCase());
+  const col = (...chaves) => cab.findIndex(h => chaves.some(k => h.includes(k)));
+  const idx = {
+    tipo: col('o que você quer'), item: col('qual item'), categoria: col('categoria'),
+    descricao: col('descri'), nome: col('primeiro nome'), contato: col('whatsapp'),
+    transporte: col('transporte'), status: col('status'),
+  };
+  return linhas.slice(1).map(l => {
+    const o = {};
+    for (const [k, i] of Object.entries(idx)) o[k] = i >= 0 ? (l[i] || '').trim() : '';
+    if (!o.status) o.status = 'Disponível';
+    if (/doa/i.test(o.tipo)) o.tipo = 'Doação';
+    else if (/troc/i.test(o.tipo)) o.tipo = 'Troca';
+    else if (/procur|preciso/i.test(o.tipo)) o.tipo = 'Procuro';
+    return o;
+  }).filter(o => o.item);
+}
+
+async function carregar() {
+  if (!CONFIG.SHEET_CSV_URL) { document.getElementById('avisoDemo').hidden = false; return EXEMPLOS; }
+  try {
+    const r = await fetch(CONFIG.SHEET_CSV_URL, { cache: 'no-store' });
+    return mapear(parseCSV(await r.text()));
+  } catch (e) {
+    document.getElementById('avisoDemo').hidden = false;
+    return EXEMPLOS;
+  }
+}
+
+// ===================== TELA =====================
+const estado = { itens: [], tipo: '', busca: '', categoria: '', status: 'disponivel' };
+const entregue = o => /entreg|conclu/i.test(o.status);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function linkContato(o) {
+  const num = (o.contato || '').replace(/\D/g, '');
+  if (!num) return '';
+  const tel = num.length <= 11 ? '55' + num : num;
+  const msg = encodeURIComponent(`Olá, ${o.nome || ''}! Vi no EcoTroca o anúncio "${o.item}" e tenho interesse.`);
+  return `https://wa.me/${tel}?text=${msg}`;
+}
+
+function renderizar() {
+  const termo = estado.busca.toLowerCase();
+  const lista = estado.itens.filter(o =>
+    (!estado.tipo || o.tipo === estado.tipo) &&
+    (!estado.categoria || o.categoria === estado.categoria) &&
+    (!estado.status || !entregue(o)) &&
+    (!termo || (o.item + ' ' + o.descricao).toLowerCase().includes(termo)));
+
+  const grade = document.getElementById('grade');
+  if (!lista.length) { grade.innerHTML = '<div class="vazio">Nenhum item encontrado. Que tal anunciar o primeiro?</div>'; return; }
+
+  grade.innerHTML = lista.map(o => {
+    const classeTipo = { 'Doação': 't-doacao', 'Troca': 't-troca', 'Procuro': 't-procuro' }[o.tipo] || 't-cat';
+    const link = linkContato(o);
+    const textoBotao = o.tipo === 'Procuro' ? 'Tenho esse item' : 'Tenho interesse';
+    const acao = entregue(o) ? '' : link
+      ? `<div class="acao"><a href="${link}" target="_blank" rel="noopener">${textoBotao}</a></div>`
+      : `<div class="acao"><a href="#ponto">${textoBotao}</a></div>`;
+    return `<article class="item${entregue(o) ? ' entregue' : ''}">
+      <div class="tags">
+        <span class="tag ${classeTipo}">${esc(o.tipo === 'Procuro' ? 'Procura-se' : o.tipo)}</span>
+        ${o.categoria ? `<span class="tag t-cat">${esc(o.categoria)}</span>` : ''}
+        ${entregue(o) ? '<span class="tag t-ok">Entregue ✓</span>' : ''}
+      </div>
+      <h3>${esc(o.item)}</h3>
+      ${o.descricao ? `<p>${esc(o.descricao)}</p>` : ''}
+      <div class="meta">Anunciado por ${esc(o.nome || 'um vizinho')}${/sim/i.test(o.transporte) ? ' · 🚚 precisa de ajuda com transporte' : ''}</div>
+      ${acao}
+    </article>`;
+  }).join('');
+}
+
+function atualizarImpacto() {
+  const its = estado.itens;
+  const ok = its.filter(o => entregue(o) && o.tipo !== 'Procuro');
+  const kg = ok.reduce((s, o) => s + (PESO_KG[o.categoria] || PESO_KG['Outros']), 0);
+  const pessoas = new Set(its.map(o => (o.nome + '|' + o.contato).toLowerCase())).size;
+  document.getElementById('kAnuncios').textContent = its.length;
+  document.getElementById('kEntregues').textContent = ok.length;
+  document.getElementById('kKg').textContent = kg.toLocaleString('pt-BR') + ' kg';
+  document.getElementById('kPessoas').textContent = pessoas;
+}
+
+function montarFiltros() {
+  const sel = document.getElementById('categoria');
+  const cats = [...new Set([...Object.keys(PESO_KG), ...estado.itens.map(o => o.categoria).filter(Boolean)])];
+  sel.innerHTML = '<option value="">Todas as categorias</option>' + cats.map(c => `<option>${esc(c)}</option>`).join('');
+  document.querySelectorAll('.aba').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.aba').forEach(x => x.setAttribute('aria-pressed', x === b));
+    estado.tipo = b.dataset.tipo; renderizar();
+  }));
+  document.getElementById('busca').addEventListener('input', e => { estado.busca = e.target.value; renderizar(); });
+  sel.addEventListener('change', e => { estado.categoria = e.target.value; renderizar(); });
+  document.getElementById('status').addEventListener('change', e => { estado.status = e.target.value; renderizar(); });
+}
+
+(async () => {
+  const anunciar = document.getElementById('btnAnunciar');
+  if (CONFIG.FORM_URL) anunciar.href = CONFIG.FORM_URL;
+  else anunciar.addEventListener('click', e => { e.preventDefault(); alert('Modo demonstração: o formulário de anúncio ainda não foi configurado.'); });
+  estado.itens = await carregar();
+  montarFiltros(); atualizarImpacto(); renderizar();
+})();
+</script>
+</body>
+</html>
